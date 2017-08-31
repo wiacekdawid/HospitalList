@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Hospital List</string>
+    <string name="hospital_list_activity_name">Hospital List</string>
 </resources>
