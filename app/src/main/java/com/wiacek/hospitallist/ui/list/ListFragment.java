@@ -11,15 +11,25 @@ import android.view.ViewGroup;
 
 import com.wiacek.hospitallist.R;
 import com.wiacek.hospitallist.databinding.FragmentListBinding;
-import com.wiacek.hospitallist.ui.HospitalListActivity;
+import com.wiacek.hospitallist.di.components.ListFragmentComponent;
+import com.wiacek.hospitallist.di.modules.ListFragmentModule;
+import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivity;
+import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivityImp;
+import com.wiacek.hospitallist.ui.activity.HospitalListActivity;
 
 import java.lang.ref.WeakReference;
+
+import javax.inject.Inject;
 
 /**
  * Created by wiacek.dawid@gmail.com
  */
 
 public class ListFragment extends Fragment {
+
+    @Inject
+    protected ListViewModel listViewModel;
+
     OnListItemSelectedListener onListItemSelectedListener;
 
     @Override
@@ -34,12 +44,19 @@ public class ListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ListFragmentComponent component = ((HospitalListActivity)getActivity())
+                .getHospitalListActivityComponent().add(new ListFragmentModule());
+        component.inject(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false);
-        AttachedHospitalListActivity attachedHospitalListActivity = new AttachedHospitalListActivityImp(new WeakReference<HospitalListActivity>((HospitalListActivity) getActivity()));
-        binding.setViewModel(new ListViewModel(attachedHospitalListActivity));
+        binding.setViewModel(listViewModel);
         return binding.getRoot();
     }
 

@@ -2,6 +2,8 @@ package com.wiacek.hospitallist.ui.list;
 
 import android.databinding.BaseObservable;
 
+import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivity;
+
 /**
  * Created by wiacek.dawid@gmail.com
  */

@@ -1,6 +1,4 @@
-package com.wiacek.hospitallist.ui.list;
-
-import com.wiacek.hospitallist.ui.HospitalListActivity;
+package com.wiacek.hospitallist.ui.activity;
 
 import java.lang.ref.WeakReference;
 

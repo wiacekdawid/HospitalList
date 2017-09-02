@@ -1,6 +1,7 @@
 package com.wiacek.hospitallist;
 
 import android.support.multidex.MultiDexApplication;
+
 import com.squareup.leakcanary.LeakCanary;
 import com.wiacek.hospitallist.di.components.AppComponent;
 import com.wiacek.hospitallist.di.components.DaggerAppComponent;
@@ -12,6 +13,8 @@ import com.wiacek.hospitallist.di.modules.AppModule;
 
 public class HospitalListApp extends MultiDexApplication {
 
+    private AppComponent appComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -20,7 +23,7 @@ public class HospitalListApp extends MultiDexApplication {
     }
 
     private void initializeDI() {
-        AppComponent appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
+        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
         appComponent.inject(this);
     }
 
@@ -28,5 +31,9 @@ public class HospitalListApp extends MultiDexApplication {
         if(LeakCanary.isInAnalyzerProcess(this) && BuildConfig.DEBUG) {
             LeakCanary.install(this);
         }
+    }
+
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 }
