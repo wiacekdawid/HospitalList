@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -49,9 +50,13 @@ dependencies {
     compile "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
     compile "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxJavaVersion"
     compile "com.google.guava:guava:$rootProject.ext.guavaVersion"
+    compile "com.facebook.stetho:stetho:$rootProject.ext.stethoVersion"
+    compile "com.uphyca:stetho_realm:$rootProject.ext.stethoRealmVersion"
+    compile "io.realm:android-adapters:$rootProject.ext.realmAdapterVersion"
 
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
     annotationProcessor "com.android.databinding:compiler:$rootProject.ext.databindingVersion"
+    annotationProcessor "dk.ilios:realmfieldnameshelper:$rootProject.ext.realmFieldNamesHelperVersion"
 
     debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.ext.leakcanaryVersion"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanaryVersion"

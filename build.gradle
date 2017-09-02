@@ -7,6 +7,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'me.tatarka:gradle-retrolambda:3.7.0'
+        classpath 'io.realm:realm-gradle-plugin:3.4.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -15,6 +16,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven { url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo' }
     }
 }
 
@@ -41,6 +43,10 @@ ext {
     rxJavaVersion = '2.1.0'
     rxAndroidVersion = '2.0.1'
     guavaVersion = '23.0-android'
+    realmFieldNamesHelperVersion = '1.1.1'
+    stethoVersion = '1.5.0'
+    stethoRealmVersion = '2.0.0'
+    realmAdapterVersion = '2.1.0'
 
     // Tests
     junitVersion = '4.12'
