@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -11,7 +12,14 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField 'String', 'DATA_GOV_API_BASE_URL', data_gov_api_base_url
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -33,6 +41,14 @@ dependencies {
     compile "com.android.support:multidex:$rootProject.ext.multidexVersion"
     compile "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibraryVersion"
+    compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
+    compile ("com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofitRxJavaAdapterVersion") {
+        exclude group: 'io.reactivex', module: 'rxjava'
+    }
+    compile "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
+    compile "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxJavaVersion"
+    compile "com.google.guava:guava:$rootProject.ext.guavaVersion"
 
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
     annotationProcessor "com.android.databinding:compiler:$rootProject.ext.databindingVersion"
@@ -44,5 +60,6 @@ dependencies {
     testCompile "junit:junit:$rootProject.ext.junitVersion"
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.code.findbugs'
     })
 }
