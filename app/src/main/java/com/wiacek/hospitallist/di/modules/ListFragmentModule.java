@@ -1,10 +1,14 @@
 package com.wiacek.hospitallist.di.modules;
 
+import android.content.Context;
+
 import com.wiacek.hospitallist.api.DataGovService;
 import com.wiacek.hospitallist.data.DataManager;
 import com.wiacek.hospitallist.di.scopes.FragmentScope;
 import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivity;
 import com.wiacek.hospitallist.ui.list.ListViewModel;
+
+import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
@@ -25,7 +29,8 @@ public class ListFragmentModule {
 
     @FragmentScope
     @Provides
-    DataManager provideDataManager(DataGovService dataGovService) {
-        return new DataManager(dataGovService);
+    DataManager provideDataManager(DataGovService dataGovService,
+                                   @Named("ApplicationContext") Context context) {
+        return new DataManager(context, dataGovService);
     }
 }

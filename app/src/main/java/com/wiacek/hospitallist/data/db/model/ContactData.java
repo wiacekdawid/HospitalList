@@ -19,7 +19,7 @@ public class ContactData extends RealmObject {
 
     public ContactData() {}
 
-    public ContactData(String id, String phone, String email,
+    public ContactData(String phone, String email,
                        String website, String fax) {
         this.phone = phone;
         this.email = email;
