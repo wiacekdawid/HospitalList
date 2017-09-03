@@ -3,21 +3,18 @@ package com.wiacek.hospitallist.data;
 import android.content.Context;
 
 import com.google.common.io.Files;
-import com.google.common.util.concurrent.ExecutionError;
 import com.wiacek.hospitallist.api.DataGovService;
-import com.wiacek.hospitallist.data.db.model.Organisation;
+import com.wiacek.hospitallist.data.db.OrganisationDbHelper;
 import com.wiacek.hospitallist.data.util.CsvFileToRealmObjectMapper;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.FileHandler;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
 import okhttp3.ResponseBody;
 import timber.log.Timber;
 
@@ -70,13 +67,16 @@ public class DataManager {
 
     private void saveCSVFileDataToDb(String filePath) throws IOException {
         BufferedReader bufferedReader = null;
+        Realm realm = Realm.getDefaultInstance();
         try {
             bufferedReader = new BufferedReader(new FileReader(filePath));
             String inputLine = bufferedReader.readLine();
 
             while ((inputLine = bufferedReader.readLine()) != null) {
                 try {
-                    Organisation organisation = CsvFileToRealmObjectMapper.transform(inputLine);
+                    OrganisationDbHelper.add(realm, CsvFileToRealmObjectMapper.transform(inputLine))
+                            .doOnError(t -> Timber.e(t.getMessage()))
+                            .subscribe();
                 }
                 catch(Exception e) {
                     Timber.e(e.getMessage());
@@ -92,6 +92,7 @@ public class DataManager {
             catch (IOException e) {
                 Timber.e(e.getMessage());
             }
+            realm.close();
         }
     }
 }
