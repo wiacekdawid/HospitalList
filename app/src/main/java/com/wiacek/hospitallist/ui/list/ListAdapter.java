@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.wiacek.hospitallist.R;
 import com.wiacek.hospitallist.data.db.model.Organisation;
 import com.wiacek.hospitallist.databinding.FragmentListItemBinding;
+import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivity;
 import com.wiacek.hospitallist.ui.list.item.ItemViewModel;
 
 import io.realm.OrderedRealmCollection;
@@ -22,8 +23,13 @@ import io.realm.RealmRecyclerViewAdapter;
 public class ListAdapter extends RealmRecyclerViewAdapter<Organisation,
         ListAdapter.ItemViewHolder> {
 
-    public ListAdapter(@Nullable OrderedRealmCollection<Organisation> data, boolean autoUpdate) {
+    private AttachedHospitalListActivity attachedHospitalListActivity;
+
+    public ListAdapter(@Nullable OrderedRealmCollection<Organisation> data,
+                       boolean autoUpdate,
+                       AttachedHospitalListActivity attachedHospitalListActivity) {
         super(data, autoUpdate);
+        this.attachedHospitalListActivity = attachedHospitalListActivity;
     }
 
     @Override
@@ -32,7 +38,7 @@ public class ListAdapter extends RealmRecyclerViewAdapter<Organisation,
 
         View view = layoutInflater.inflate(R.layout.fragment_list_item, parent, false);
 
-        ItemViewModel githubItemViewModel = new ItemViewModel();
+        ItemViewModel githubItemViewModel = new ItemViewModel(attachedHospitalListActivity);
 
         FragmentListItemBinding binding = FragmentListItemBinding.bind(view);
         binding.setViewModel(githubItemViewModel);

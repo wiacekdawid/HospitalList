@@ -1,6 +1,7 @@
 package com.wiacek.hospitallist.data.db;
 
 import com.wiacek.hospitallist.data.db.model.Organisation;
+import com.wiacek.hospitallist.data.db.model.OrganisationFields;
 
 import io.reactivex.Completable;
 import io.realm.Realm;
@@ -21,5 +22,12 @@ public class OrganisationDbHelper {
     public static RealmResults<Organisation> getOrganisations(Realm realm) {
         return realm.where(Organisation.class)
                 .findAll();
+    }
+
+    public static Organisation getOrganisationById(Realm realm,
+                                                   String organisationId) {
+        return realm.where(Organisation.class)
+                .equalTo(OrganisationFields.ORGANISATION_ID, organisationId)
+                .findFirst();
     }
 }

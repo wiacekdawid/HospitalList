@@ -15,7 +15,7 @@ public class AttachedHospitalListActivityImp implements AttachedHospitalListActi
     }
 
     @Override
-    public void selectItem() {
-        hospitalListActivity.get().onListItemSelected();
+    public void selectItem(String organisationId) {
+        hospitalListActivity.get().onListItemSelected(organisationId);
     }
 }

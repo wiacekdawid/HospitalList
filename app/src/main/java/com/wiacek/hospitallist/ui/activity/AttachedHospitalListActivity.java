@@ -5,5 +5,5 @@ package com.wiacek.hospitallist.ui.activity;
  */
 
 public interface AttachedHospitalListActivity {
-    void selectItem();
+    void selectItem(String organisationId);
 }

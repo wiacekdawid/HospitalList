@@ -1,6 +1,7 @@
 package com.wiacek.hospitallist.ui.list;
 
 import android.databinding.BaseObservable;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -29,13 +30,11 @@ public class ListViewModel extends BaseObservable implements ViewModel {
                          Realm realm) {
         this.attachedHospitalListActivity = attachedHospitalListActivity;
         this.dataManager = dataManager;
-        this.linearLayoutManager = linearLayoutManager;
         this.listAdapter = listAdapter;
         this.realm = realm;
     }
 
     public void onRefresh() {
-        //attachedHospitalListActivity.selectItem();
         dataManager.getHospitalList();
     }
 
@@ -54,4 +53,13 @@ public class ListViewModel extends BaseObservable implements ViewModel {
     public void onDetach() {
         realm.close();
     }
+
+    public LinearLayoutManager getLinearLayoutManager() {
+        return linearLayoutManager;
+    }
+
+    public void setLinearLayoutManager(LinearLayoutManager linearLayoutManager) {
+        this.linearLayoutManager = linearLayoutManager;
+    }
+
 }

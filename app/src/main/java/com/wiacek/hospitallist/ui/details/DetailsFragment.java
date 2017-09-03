@@ -22,14 +22,21 @@ import javax.inject.Inject;
 
 public class DetailsFragment extends Fragment {
 
+    public static final String ORGANISATION_ID = "organisationId";
+
     @Inject
     protected DetailsViewModel detailsViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        String organisationId = null;
+        if(args != null) {
+            organisationId = args.getString(ORGANISATION_ID);
+        }
         DetailsFragmentComponent component = ((HospitalListActivity)getActivity())
-                .getHospitalListActivityComponent().add(new DetailsFragmentModule());
+                .getHospitalListActivityComponent().add(new DetailsFragmentModule(organisationId));
         component.inject(this);
     }
 

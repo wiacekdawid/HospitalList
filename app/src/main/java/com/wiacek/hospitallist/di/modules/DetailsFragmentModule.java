@@ -13,9 +13,15 @@ import dagger.Provides;
 @Module
 public class DetailsFragmentModule {
 
+    private String organisationId;
+
+    public DetailsFragmentModule(String organisationId) {
+        this.organisationId = organisationId;
+    }
+
     @FragmentScope
     @Provides
     DetailsViewModel provideDetailsViewModel() {
-        return new DetailsViewModel();
+        return new DetailsViewModel(organisationId);
     }
 }

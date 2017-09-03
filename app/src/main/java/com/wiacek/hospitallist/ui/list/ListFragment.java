@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,11 @@ import javax.inject.Inject;
 
 public class ListFragment extends Fragment {
 
+    private static final String BUNDLE_LINEAR_LAYOUT_MANAGER_STATE = "BUNDLE_LINEAR_LAYOUT_MANAGER_STATE";
     @Inject
     protected ListViewModel listViewModel;
+
+    public LinearLayoutManager linearLayoutManager;
 
     OnListItemSelectedListener onListItemSelectedListener;
 
@@ -58,12 +62,23 @@ public class ListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        if(savedInstanceState != null) {
+            linearLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BUNDLE_LINEAR_LAYOUT_MANAGER_STATE));
+        }
         FragmentListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false);
+        listViewModel.setLinearLayoutManager(linearLayoutManager);
         binding.setViewModel(listViewModel);
         return binding.getRoot();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_LINEAR_LAYOUT_MANAGER_STATE, linearLayoutManager.onSaveInstanceState());
+    }
+
     public interface OnListItemSelectedListener {
-        void onListItemSelected();
+        void onListItemSelected(String organisationId);
     }
 }

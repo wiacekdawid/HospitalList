@@ -24,11 +24,7 @@ public class HospitalListActivity extends AppCompatActivity
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        component = ((HospitalListApp)getApplicationContext())
-                .getAppComponent()
-                .add(new HospitalListActivityModule(this));
-        component.inject(this);
+        getHospitalListActivityComponent().inject(this);
 
         setContentView(R.layout.activity_hospital_list);
 
@@ -46,7 +42,7 @@ public class HospitalListActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListItemSelected() {
+    public void onListItemSelected(String organisationId) {
         DetailsFragment detailsFragment = (DetailsFragment)
                 getSupportFragmentManager().findFragmentByTag(DetailsFragment.class.getName());
 
@@ -55,7 +51,9 @@ public class HospitalListActivity extends AppCompatActivity
         }
         else {
             DetailsFragment newDetailsFragment = new DetailsFragment();
-
+            Bundle bundle = new Bundle();
+            bundle.putString(DetailsFragment.ORGANISATION_ID, organisationId);
+            newDetailsFragment.setArguments(bundle);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, newDetailsFragment, DetailsFragment.class.getName());
             transaction.addToBackStack(null);
@@ -64,6 +62,11 @@ public class HospitalListActivity extends AppCompatActivity
     }
 
     public HospitalListActivityComponent getHospitalListActivityComponent() {
+        if(component == null) {
+            component = ((HospitalListApp)getApplicationContext())
+                    .getAppComponent()
+                    .add(new HospitalListActivityModule(this));
+        }
         return component;
     }
 }

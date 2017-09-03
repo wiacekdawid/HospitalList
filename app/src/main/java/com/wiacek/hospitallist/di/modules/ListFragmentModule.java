@@ -52,10 +52,11 @@ public class ListFragmentModule {
 
     @FragmentScope
     @Provides
-    ListAdapter provideListAdapter(Realm realm) {
+    ListAdapter provideListAdapter(Realm realm,
+                                   AttachedHospitalListActivity attachedHospitalListActivity) {
         RealmResults<Organisation> results;
         results = OrganisationDbHelper.getOrganisations(realm);
-        return new ListAdapter(results, true);
+        return new ListAdapter(results, true, attachedHospitalListActivity);
     }
 
     @FragmentScope
