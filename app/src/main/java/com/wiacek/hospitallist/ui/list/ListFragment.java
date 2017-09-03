@@ -13,11 +13,7 @@ import com.wiacek.hospitallist.R;
 import com.wiacek.hospitallist.databinding.FragmentListBinding;
 import com.wiacek.hospitallist.di.components.ListFragmentComponent;
 import com.wiacek.hospitallist.di.modules.ListFragmentModule;
-import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivity;
-import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivityImp;
 import com.wiacek.hospitallist.ui.activity.HospitalListActivity;
-
-import java.lang.ref.WeakReference;
 
 import javax.inject.Inject;
 
@@ -50,6 +46,13 @@ public class ListFragment extends Fragment {
         ListFragmentComponent component = ((HospitalListActivity)getActivity())
                 .getHospitalListActivityComponent().add(new ListFragmentModule());
         component.inject(this);
+        listViewModel.onAttach();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        listViewModel.onDetach();
     }
 
     @Nullable
