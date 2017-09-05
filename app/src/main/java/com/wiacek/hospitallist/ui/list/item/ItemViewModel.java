@@ -96,4 +96,6 @@ public class ItemViewModel extends BaseObservable {
     public void onClickItem() {
         attachedHospitalListActivity.selectItem(organisationId);
     }
+
+    public void onClickCall() { attachedHospitalListActivity.call(phone);}
 }

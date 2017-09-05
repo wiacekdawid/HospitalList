@@ -6,4 +6,5 @@ package com.wiacek.hospitallist.ui.activity;
 
 public interface AttachedHospitalListActivity {
     void selectItem(String organisationId);
+    void call(String phoneNumber);
 }

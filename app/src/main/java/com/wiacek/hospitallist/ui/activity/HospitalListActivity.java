@@ -1,5 +1,7 @@
 package com.wiacek.hospitallist.ui.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +21,7 @@ import com.wiacek.hospitallist.ui.list.ListFragment;
 public class HospitalListActivity extends AppCompatActivity
             implements ListFragment.OnListItemSelectedListener{
 
+    private static final String TEL = "tel:";
     private HospitalListActivityComponent component;
 
     @Override
@@ -68,5 +71,12 @@ public class HospitalListActivity extends AppCompatActivity
                     .add(new HospitalListActivityModule(this));
         }
         return component;
+    }
+
+    public void call(String phoneNumber) {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse(TEL + phoneNumber));
+        callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(callIntent);
     }
 }
