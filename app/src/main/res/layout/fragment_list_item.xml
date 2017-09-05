@@ -1,33 +1,66 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
             type="com.wiacek.hospitallist.ui.list.item.ItemViewModel" />
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:onClick="@{() -> viewModel.onClickItem()}">
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="@color/colorWhite">
 
-        <TextView
-            android:theme="@style/TextViewListItemPrimary"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/list_item_phone_image_view"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:src="@drawable/ic_phone_black_24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            app:visibility="@{viewModel.phone}" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{viewModel.organisationName}"/>
+            android:layout_toLeftOf="@id/list_item_phone_image_view"
+            android:layout_toStartOf="@id/list_item_phone_image_view"
+            android:layout_centerVertical="true"
+            android:onClick="@{() -> viewModel.onClickItem()}">
 
-        <TextView
-            android:theme="@style/TextViewListItemSecondary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@{viewModel.organisationName}"/>
+            <TextView
+                android:theme="@style/TextViewListItemPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingBottom="4dp"
+                android:text="@{viewModel.organisationName}"/>
 
-    </LinearLayout>
+            <TextView
+                android:theme="@style/TextViewListItemSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingBottom="4dp"
+                android:text='@{viewModel.organisationType + ", " + viewModel.sector}'/>
+
+            <TextView
+                android:theme="@style/TextViewListItemSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:visibility="@{viewModel.address}"
+                android:text='@{viewModel.address}'/>
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </layout>
