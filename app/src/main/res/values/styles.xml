@@ -26,4 +26,11 @@
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
     </style>
+
+    <style name="TextViewDetailsPrimary" parent="TextViewListItemPrimary">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextViewDetailsSecondary" parent="TextViewListItemPrimary"/>
 </resources>

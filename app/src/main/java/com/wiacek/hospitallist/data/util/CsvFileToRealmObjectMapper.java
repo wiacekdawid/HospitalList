@@ -28,6 +28,8 @@ public class CsvFileToRealmObjectMapper {
     private static final int POST_CODE = 13;
     private static final int LATITUDE = 14;
     private static final int LONGITUDE = 15;
+    private static final int PARENT_ODS_CODE = 16;
+    private static final int PARENT_NAME = 17;
     private static final int PHONE = 18;
     private static final int EMAIL = 19;
     private static final int WEBSITE = 20;
@@ -60,6 +62,8 @@ public class CsvFileToRealmObjectMapper {
                 row[ORGANISATION_STATUS],
                 row[IS_PIMS_MANAGED].equals("true"),
                 row[ORGANISATION_NAME],
+                row[PARENT_NAME],
+                row[PARENT_ODS_CODE],
                 address,
                 contactData);
 

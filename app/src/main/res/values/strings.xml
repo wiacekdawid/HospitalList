@@ -3,4 +3,21 @@
     <string name="hospital_list_activity_name">Hospital List</string>
     <string name="filter">Filters</string>
     <string name="filter_show_nhs_hospitals">Show only NHS hospitals</string>
+    <string name="hospital_list_details_organisation_name">Name:</string>
+    <string name="hospital_list_details_organisation_type">Type:</string>
+    <string name="hospital_list_details_organisation_subtype">Subtype:</string>
+    <string name="hospital_list_details_organisation_sector">Sector:</string>
+    <string name="hospital_list_details_organisation_ispims_managed">Pims managed:</string>
+    <string name="hospital_list_details_organisation_address">Address:</string>
+    <string name="hospital_list_details_organisation_address1">Address1:</string>
+    <string name="hospital_list_details_organisation_address2">Address2:</string>
+    <string name="hospital_list_details_organisation_address3">Address3:</string>
+    <string name="hospital_list_details_parent_name">Parent name:</string>
+    <string name="hospital_list_details_parent_ods_code">Parent ODS code:</string>
+    <string name="hospital_list_details_phone">Phone:</string>
+    <string name="hospital_list_details_email">Email:</string>
+    <string name="hospital_list_details_website">Website:</string>
+    <string name="hospital_list_details_fax">Fax:</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

@@ -17,6 +17,8 @@ public class Organisation extends RealmObject {
     private String organisationStatus;
     private boolean isPimsManaged;
     private String organisationName;
+    private String parentName;
+    private String parentODSCode;
     private Address address;
     private ContactData contactData;
 
@@ -25,7 +27,8 @@ public class Organisation extends RealmObject {
     public Organisation(String organisationID, String organisationCode,
                         String organisationType, String subType, String sector,
                         String organisationStatus, boolean isPimsManaged,
-                        String organisationName, Address address,
+                        String organisationName, String parentName,
+                        String parentODSCode, Address address,
                         ContactData contactData) {
         this.organisationID = organisationID;
         this.organisationCode = organisationCode;
@@ -35,6 +38,8 @@ public class Organisation extends RealmObject {
         this.organisationStatus = organisationStatus;
         this.isPimsManaged = isPimsManaged;
         this.organisationName = organisationName;
+        this.setParentName(parentName);
+        this.setParentODSCode(parentODSCode);
         this.address = address;
         this.contactData = contactData;
     }
@@ -117,5 +122,21 @@ public class Organisation extends RealmObject {
 
     public void setContactData(ContactData contactData) {
         this.contactData = contactData;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
+    public String getParentODSCode() {
+        return parentODSCode;
+    }
+
+    public void setParentODSCode(String parentODSCode) {
+        this.parentODSCode = parentODSCode;
     }
 }
