@@ -46,22 +46,14 @@ public class HospitalListActivity extends AppCompatActivity
 
     @Override
     public void onListItemSelected(String organisationId) {
-        DetailsFragment detailsFragment = (DetailsFragment)
-                getSupportFragmentManager().findFragmentByTag(DetailsFragment.class.getName());
-
-        if(detailsFragment != null) {
-
-        }
-        else {
-            DetailsFragment newDetailsFragment = new DetailsFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString(DetailsFragment.ORGANISATION_ID, organisationId);
-            newDetailsFragment.setArguments(bundle);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, newDetailsFragment, DetailsFragment.class.getName());
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
+        DetailsFragment detailsFragment = new DetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(DetailsFragment.ORGANISATION_ID, organisationId);
+        detailsFragment.setArguments(bundle);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, detailsFragment, DetailsFragment.class.getName());
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public HospitalListActivityComponent getHospitalListActivityComponent() {

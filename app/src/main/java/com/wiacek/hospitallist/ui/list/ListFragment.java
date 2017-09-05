@@ -26,10 +26,10 @@ import javax.inject.Inject;
  */
 
 public class ListFragment extends Fragment {
-
+    private static final String BUNDLE_LIST_VIEW_MODEL = "BUNDLE_LIST_VIEW_MODEL";
     private static final String BUNDLE_LINEAR_LAYOUT_MANAGER_STATE = "BUNDLE_LINEAR_LAYOUT_MANAGER_STATE";
     @Inject
-    protected ListViewModel listViewModel;
+    protected ListViewHandler listViewHandler;
 
     private FragmentListBinding fragmentListBinding;
     private ListAdapter listAdapter;
@@ -40,7 +40,6 @@ public class ListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         try {
             onListItemSelectedListener = (OnListItemSelectedListener) context;
         } catch (ClassCastException e) {
@@ -55,13 +54,13 @@ public class ListFragment extends Fragment {
         ListFragmentComponent component = ((HospitalListActivity)getActivity())
                 .getHospitalListActivityComponent().add(new ListFragmentModule(this));
         component.inject(this);
-        listViewModel.onAttach();
+        listViewHandler.onAttach();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        listViewModel.onDetach();
+        listViewHandler.onDetach();
     }
 
     @Nullable
@@ -70,9 +69,11 @@ public class ListFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         if(savedInstanceState != null) {
             linearLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BUNDLE_LINEAR_LAYOUT_MANAGER_STATE));
+            listViewHandler.setListViewModel(savedInstanceState.getParcelable(BUNDLE_LIST_VIEW_MODEL));
         }
         fragmentListBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false);
-        fragmentListBinding.setViewModel(listViewModel);
+        fragmentListBinding.setViewModel(listViewHandler.getListViewModel());
+        fragmentListBinding.setViewHandler(listViewHandler);
         setupRecyclerView();
         return fragmentListBinding.getRoot();
     }
@@ -81,11 +82,12 @@ public class ListFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(BUNDLE_LINEAR_LAYOUT_MANAGER_STATE, linearLayoutManager.onSaveInstanceState());
+        outState.putParcelable(BUNDLE_LIST_VIEW_MODEL, listViewHandler.getListViewModel());
     }
 
     private void setupRecyclerView() {
         RecyclerView recyclerView = fragmentListBinding.fragmentListRecyclerView;
-        listAdapter = new ListAdapter(listViewModel.getAdapterDataFromDb(), true, listViewModel.getAttachedHospitalListActivity());
+        listAdapter = new ListAdapter(listViewHandler.getAdapterDataFromDb(), true, listViewHandler.getAttachedHospitalListActivity());
         recyclerView.setAdapter(listAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(
@@ -105,7 +107,7 @@ public class ListFragment extends Fragment {
     }
 
     public void onUpdatedData() {
-        listAdapter.updateData(listViewModel.getAdapterDataFromDb());
+        listAdapter.updateData(listViewHandler.getAdapterDataFromDb());
     }
 
     public interface OnListItemSelectedListener {

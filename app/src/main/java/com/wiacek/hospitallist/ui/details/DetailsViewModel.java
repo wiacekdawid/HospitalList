@@ -2,6 +2,8 @@ package com.wiacek.hospitallist.ui.details;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.wiacek.hospitallist.BR;
 import com.wiacek.hospitallist.data.db.OrganisationDbHelper;
@@ -13,7 +15,7 @@ import io.realm.Realm;
  * Created by wiacek.dawid@gmail.com
  */
 
-public class DetailsViewModel extends BaseObservable {
+public class DetailsViewModel extends BaseObservable implements Parcelable {
 
     private String organisationIdDetails;
     private String organisationNameDetails;
@@ -218,4 +220,61 @@ public class DetailsViewModel extends BaseObservable {
         this.faxDetails = faxDetails;
         notifyPropertyChanged(BR.faxDetails);
     }
+
+    protected DetailsViewModel(Parcel in) {
+        organisationIdDetails = in.readString();
+        organisationNameDetails = in.readString();
+        organisationTypeDetails = in.readString();
+        organisationSubtypeDetails = in.readString();
+        organisationSectorDetails = in.readString();
+        organisationIsPimsManagedDetails = in.readByte() != 0x00;
+        organisationAddressDetails = in.readString();
+        organisationAddress1Details = in.readString();
+        organisationAddress2Details = in.readString();
+        organisationAddress3Details = in.readString();
+        parentNameDetails = in.readString();
+        parentOdsCodeDetails = in.readString();
+        phoneDetails = in.readString();
+        emailDetails = in.readString();
+        websiteDetails = in.readString();
+        faxDetails = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(organisationIdDetails);
+        dest.writeString(organisationNameDetails);
+        dest.writeString(organisationTypeDetails);
+        dest.writeString(organisationSubtypeDetails);
+        dest.writeString(organisationSectorDetails);
+        dest.writeByte((byte) (organisationIsPimsManagedDetails ? 0x01 : 0x00));
+        dest.writeString(organisationAddressDetails);
+        dest.writeString(organisationAddress1Details);
+        dest.writeString(organisationAddress2Details);
+        dest.writeString(organisationAddress3Details);
+        dest.writeString(parentNameDetails);
+        dest.writeString(parentOdsCodeDetails);
+        dest.writeString(phoneDetails);
+        dest.writeString(emailDetails);
+        dest.writeString(websiteDetails);
+        dest.writeString(faxDetails);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<DetailsViewModel> CREATOR = new Parcelable.Creator<DetailsViewModel>() {
+        @Override
+        public DetailsViewModel createFromParcel(Parcel in) {
+            return new DetailsViewModel(in);
+        }
+
+        @Override
+        public DetailsViewModel[] newArray(int size) {
+            return new DetailsViewModel[size];
+        }
+    };
 }

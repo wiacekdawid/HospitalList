@@ -13,6 +13,7 @@ import com.wiacek.hospitallist.ui.list.AttachedListFragment;
 import com.wiacek.hospitallist.ui.list.AttachedListFragmentImp;
 import com.wiacek.hospitallist.ui.list.ListAdapter;
 import com.wiacek.hospitallist.ui.list.ListFragment;
+import com.wiacek.hospitallist.ui.list.ListViewHandler;
 import com.wiacek.hospitallist.ui.list.ListViewModel;
 
 import java.lang.ref.WeakReference;
@@ -45,11 +46,19 @@ public class ListFragmentModule {
 
     @FragmentScope
     @Provides
-    ListViewModel provideListViewModel(AttachedHospitalListActivity attachedHospitalListActivity,
-                                       AttachedListFragment attachedListFragment,
-                                       DataManager dataManager,
-                                       Realm realm) {
-        return new ListViewModel(attachedHospitalListActivity, attachedListFragment, dataManager, realm);
+    ListViewModel provideListViewModel() {
+        return new ListViewModel();
+    }
+
+    @FragmentScope
+    @Provides
+    ListViewHandler provideListViewHandler(ListViewModel listViewModel,
+                                            AttachedHospitalListActivity attachedHospitalListActivity,
+                                            AttachedListFragment attachedListFragment,
+                                            DataManager dataManager,
+                                            Realm realm) {
+        return new ListViewHandler(listViewModel,
+                attachedHospitalListActivity, attachedListFragment, dataManager, realm);
     }
 
     @FragmentScope

@@ -1,7 +1,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <variable
+            name="viewHandler"
+            type="com.wiacek.hospitallist.ui.list.ListViewHandler" />
         <variable
             name="viewModel"
             type="com.wiacek.hospitallist.ui.list.ListViewModel" />
@@ -11,7 +13,7 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:onRefreshListener="@{() -> viewModel.onRefresh()}">
+        app:onRefreshListener="@{() -> viewHandler.onRefresh()}">
 
         <RelativeLayout
             android:orientation="vertical"
@@ -48,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@{viewModel.onlyNHSOrganisationsChecked}"
-                    android:onClick="@{() -> viewModel.onCheckedOnlyNHSOrganisationsChanged()}"
+                    android:onClick="@{() -> viewHandler.onCheckedOnlyNHSOrganisationsChanged()}"
                     android:textColor="#000"
                     android:text="@string/filter_show_nhs_hospitals"/>
 

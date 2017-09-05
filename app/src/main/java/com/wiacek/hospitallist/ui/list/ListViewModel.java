@@ -2,15 +2,15 @@ package com.wiacek.hospitallist.ui.list;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.wiacek.hospitallist.BR;
 import com.wiacek.hospitallist.data.DataManager;
 import com.wiacek.hospitallist.data.db.OrganisationDbHelper;
 import com.wiacek.hospitallist.data.db.model.Organisation;
 import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivity;
-import com.wiacek.hospitallist.ui.base.ViewModel;
+import com.wiacek.hospitallist.ui.base.ViewHandler;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -19,37 +19,11 @@ import io.realm.RealmResults;
  * Created by wiacek.dawid@gmail.com
  */
 
-public class ListViewModel extends BaseObservable implements ViewModel {
+public class ListViewModel extends BaseObservable implements Parcelable {
 
-    private AttachedHospitalListActivity attachedHospitalListActivity;
-    private AttachedListFragment attachedListFragment;
-    private DataManager dataManager;
-    private Realm realm;
     private boolean onlyNHSOrganisationsChecked;
 
-    public ListViewModel(AttachedHospitalListActivity attachedHospitalListActivity,
-                         AttachedListFragment attachedListFragment,
-                         DataManager dataManager,
-                         Realm realm) {
-        this.setAttachedHospitalListActivity(attachedHospitalListActivity);
-        this.attachedListFragment = attachedListFragment;
-        this.dataManager = dataManager;
-        this.realm = realm;
-    }
-
-    public void onRefresh() {
-        dataManager.getHospitalList();
-    }
-
-    @Override
-    public void onAttach() {
-
-    }
-
-    @Override
-    public void onDetach() {
-        realm.close();
-    }
+    public ListViewModel() {}
 
     @Bindable
     public boolean isOnlyNHSOrganisationsChecked() {
@@ -61,23 +35,30 @@ public class ListViewModel extends BaseObservable implements ViewModel {
         notifyPropertyChanged(BR.onlyNHSOrganisationsChecked);
     }
 
-    public void onCheckedOnlyNHSOrganisationsChanged() {
-        onlyNHSOrganisationsChecked = !onlyNHSOrganisationsChecked;
-        attachedListFragment.onUpdatedData();
+    protected ListViewModel(Parcel in) {
+        onlyNHSOrganisationsChecked = in.readByte() != 0x00;
     }
 
-    public RealmResults<Organisation> getAdapterDataFromDb() {
-        if(onlyNHSOrganisationsChecked) {
-            return OrganisationDbHelper.getNHSOrganisations(realm);
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (onlyNHSOrganisationsChecked ? 0x01 : 0x00));
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<ListViewModel> CREATOR = new Parcelable.Creator<ListViewModel>() {
+        @Override
+        public ListViewModel createFromParcel(Parcel in) {
+            return new ListViewModel(in);
         }
-        return OrganisationDbHelper.getOrganisations(realm);
-    }
 
-    public AttachedHospitalListActivity getAttachedHospitalListActivity() {
-        return attachedHospitalListActivity;
-    }
-
-    public void setAttachedHospitalListActivity(AttachedHospitalListActivity attachedHospitalListActivity) {
-        this.attachedHospitalListActivity = attachedHospitalListActivity;
-    }
+        @Override
+        public ListViewModel[] newArray(int size) {
+            return new ListViewModel[size];
+        }
+    };
 }
