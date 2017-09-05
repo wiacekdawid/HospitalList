@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ public class ListFragment extends Fragment {
     @Inject
     protected ListViewModel listViewModel;
 
+    private FragmentListBinding fragmentListBinding;
+    private ListAdapter listAdapter;
     public LinearLayoutManager linearLayoutManager;
 
     OnListItemSelectedListener onListItemSelectedListener;
@@ -48,7 +51,7 @@ public class ListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ListFragmentComponent component = ((HospitalListActivity)getActivity())
-                .getHospitalListActivityComponent().add(new ListFragmentModule());
+                .getHospitalListActivityComponent().add(new ListFragmentModule(this));
         component.inject(this);
         listViewModel.onAttach();
     }
@@ -66,16 +69,27 @@ public class ListFragment extends Fragment {
         if(savedInstanceState != null) {
             linearLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BUNDLE_LINEAR_LAYOUT_MANAGER_STATE));
         }
-        FragmentListBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false);
-        listViewModel.setLinearLayoutManager(linearLayoutManager);
-        binding.setViewModel(listViewModel);
-        return binding.getRoot();
+        fragmentListBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false);
+        fragmentListBinding.setViewModel(listViewModel);
+        setupRecyclerView();
+        return fragmentListBinding.getRoot();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(BUNDLE_LINEAR_LAYOUT_MANAGER_STATE, linearLayoutManager.onSaveInstanceState());
+    }
+
+    private void setupRecyclerView() {
+        RecyclerView recyclerView = fragmentListBinding.fragmentListRecyclerView;
+        listAdapter = new ListAdapter(listViewModel.getAdapterDataFromDb(), true, listViewModel.getAttachedHospitalListActivity());
+        recyclerView.setAdapter(listAdapter);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    public void onUpdatedData() {
+        listAdapter.updateData(listViewModel.getAdapterDataFromDb());
     }
 
     public interface OnListItemSelectedListener {

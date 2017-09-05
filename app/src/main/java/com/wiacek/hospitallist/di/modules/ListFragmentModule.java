@@ -9,8 +9,13 @@ import com.wiacek.hospitallist.data.db.OrganisationDbHelper;
 import com.wiacek.hospitallist.data.db.model.Organisation;
 import com.wiacek.hospitallist.di.scopes.FragmentScope;
 import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivity;
+import com.wiacek.hospitallist.ui.list.AttachedListFragment;
+import com.wiacek.hospitallist.ui.list.AttachedListFragmentImp;
 import com.wiacek.hospitallist.ui.list.ListAdapter;
+import com.wiacek.hospitallist.ui.list.ListFragment;
 import com.wiacek.hospitallist.ui.list.ListViewModel;
+
+import java.lang.ref.WeakReference;
 
 import javax.inject.Named;
 
@@ -26,14 +31,25 @@ import io.realm.RealmResults;
 @Module
 public class ListFragmentModule {
 
+    private final ListFragment listFragment;
+
+    public ListFragmentModule(ListFragment listFragment) {
+        this.listFragment = listFragment;
+    }
+
+    @FragmentScope
+    @Provides
+    AttachedListFragment provideAttachedListFragment() {
+        return new AttachedListFragmentImp(new WeakReference<ListFragment>(listFragment));
+    }
+
     @FragmentScope
     @Provides
     ListViewModel provideListViewModel(AttachedHospitalListActivity attachedHospitalListActivity,
+                                       AttachedListFragment attachedListFragment,
                                        DataManager dataManager,
-                                       LinearLayoutManager linearLayoutManager,
-                                       ListAdapter listAdapter,
                                        Realm realm) {
-        return new ListViewModel(attachedHospitalListActivity, dataManager, linearLayoutManager, listAdapter, realm);
+        return new ListViewModel(attachedHospitalListActivity, attachedListFragment, dataManager, realm);
     }
 
     @FragmentScope
@@ -41,13 +57,6 @@ public class ListFragmentModule {
     DataManager provideDataManager(DataGovService dataGovService,
                                    @Named("ApplicationContext") Context context) {
         return new DataManager(context, dataGovService);
-    }
-
-    @FragmentScope
-    @Provides
-    LinearLayoutManager provideLinearLayoutManager(
-            @Named("ApplicationContext") Context context) {
-        return new LinearLayoutManager(context);
     }
 
     @FragmentScope

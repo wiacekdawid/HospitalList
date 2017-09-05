@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Hospital List</string>
     <string name="hospital_list_activity_name">Hospital List</string>
+    <string name="filter">Filters</string>
+    <string name="filter_show_nhs_hospitals">Show only NHS hospitals</string>
 </resources>

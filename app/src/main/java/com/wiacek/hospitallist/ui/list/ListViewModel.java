@@ -1,15 +1,19 @@
 package com.wiacek.hospitallist.ui.list;
 
 import android.databinding.BaseObservable;
-import android.os.Parcelable;
+import android.databinding.Bindable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.wiacek.hospitallist.BR;
 import com.wiacek.hospitallist.data.DataManager;
+import com.wiacek.hospitallist.data.db.OrganisationDbHelper;
+import com.wiacek.hospitallist.data.db.model.Organisation;
 import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivity;
 import com.wiacek.hospitallist.ui.base.ViewModel;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by wiacek.dawid@gmail.com
@@ -18,31 +22,24 @@ import io.realm.Realm;
 public class ListViewModel extends BaseObservable implements ViewModel {
 
     private AttachedHospitalListActivity attachedHospitalListActivity;
+    private AttachedListFragment attachedListFragment;
     private DataManager dataManager;
-    private ListAdapter listAdapter;
-    private LinearLayoutManager linearLayoutManager;
     private Realm realm;
+    private boolean onlyNHSOrganisationsChecked;
 
     public ListViewModel(AttachedHospitalListActivity attachedHospitalListActivity,
+                         AttachedListFragment attachedListFragment,
                          DataManager dataManager,
-                         LinearLayoutManager linearLayoutManager,
-                         ListAdapter listAdapter,
                          Realm realm) {
-        this.attachedHospitalListActivity = attachedHospitalListActivity;
+        this.setAttachedHospitalListActivity(attachedHospitalListActivity);
+        this.attachedListFragment = attachedListFragment;
         this.dataManager = dataManager;
-        this.listAdapter = listAdapter;
         this.realm = realm;
     }
 
     public void onRefresh() {
         dataManager.getHospitalList();
     }
-
-    public final void setupRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setAdapter(listAdapter);
-        recyclerView.setLayoutManager(linearLayoutManager);
-    }
-
 
     @Override
     public void onAttach() {
@@ -54,12 +51,33 @@ public class ListViewModel extends BaseObservable implements ViewModel {
         realm.close();
     }
 
-    public LinearLayoutManager getLinearLayoutManager() {
-        return linearLayoutManager;
+    @Bindable
+    public boolean isOnlyNHSOrganisationsChecked() {
+        return onlyNHSOrganisationsChecked;
     }
 
-    public void setLinearLayoutManager(LinearLayoutManager linearLayoutManager) {
-        this.linearLayoutManager = linearLayoutManager;
+    public void setOnlyNHSOrganisationsChecked(boolean onlyNHSOrganisationsChecked) {
+        this.onlyNHSOrganisationsChecked = onlyNHSOrganisationsChecked;
+        notifyPropertyChanged(BR.onlyNHSOrganisationsChecked);
     }
 
+    public void onCheckedOnlyNHSOrganisationsChanged() {
+        onlyNHSOrganisationsChecked = !onlyNHSOrganisationsChecked;
+        attachedListFragment.onUpdatedData();
+    }
+
+    public RealmResults<Organisation> getAdapterDataFromDb() {
+        if(onlyNHSOrganisationsChecked) {
+            return OrganisationDbHelper.getNHSOrganisations(realm);
+        }
+        return OrganisationDbHelper.getOrganisations(realm);
+    }
+
+    public AttachedHospitalListActivity getAttachedHospitalListActivity() {
+        return attachedHospitalListActivity;
+    }
+
+    public void setAttachedHospitalListActivity(AttachedHospitalListActivity attachedHospitalListActivity) {
+        this.attachedHospitalListActivity = attachedHospitalListActivity;
+    }
 }

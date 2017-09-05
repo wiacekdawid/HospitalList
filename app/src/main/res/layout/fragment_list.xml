@@ -13,10 +13,47 @@
         android:layout_height="match_parent"
         app:onRefreshListener="@{() -> viewModel.onRefresh()}">
 
-        <android.support.v7.widget.RecyclerView
+        <RelativeLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            bind:recyclerViewViewModel="@{viewModel}" />
+            android:layout_height="match_parent" >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_list_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorLightGrey"
+                android:layout_alignBottom="@+id/filter_linear_layout"
+                android:paddingBottom="60dp" />
+
+            <LinearLayout
+                android:id="@+id/filter_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                android:gravity="bottom|center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBackground"
+                    android:textColor="@color/colorWhite"
+                    android:padding="4dp"
+                    android:gravity="center"
+                    android:text="@string/filter"/>
+
+                <CheckBox
+                    android:theme="@style/checkBoxStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{viewModel.onlyNHSOrganisationsChecked}"
+                    android:onClick="@{() -> viewModel.onCheckedOnlyNHSOrganisationsChanged()}"
+                    android:textColor="#000"
+                    android:text="@string/filter_show_nhs_hospitals"/>
+
+            </LinearLayout>
+        </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

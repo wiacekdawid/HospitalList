@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
 
 public class AttachedHospitalListActivityImp implements AttachedHospitalListActivity {
 
-    private WeakReference<HospitalListActivity> hospitalListActivity;
+    private final WeakReference<HospitalListActivity> hospitalListActivity;
 
     public AttachedHospitalListActivityImp(WeakReference<HospitalListActivity> hospitalListActivity) {
         this.hospitalListActivity = hospitalListActivity;

@@ -30,4 +30,10 @@ public class OrganisationDbHelper {
                 .equalTo(OrganisationFields.ORGANISATION_ID, organisationId)
                 .findFirst();
     }
+
+    public static RealmResults<Organisation> getNHSOrganisations(Realm realm) {
+        return realm.where(Organisation.class)
+                .equalTo(OrganisationFields.SECTOR, "NHS Sector")
+                .findAll();
+    }
 }
