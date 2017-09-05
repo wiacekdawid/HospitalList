@@ -44,7 +44,7 @@
                     android:text="@string/filter"/>
 
                 <CheckBox
-                    android:theme="@style/checkBoxStyle"
+                    android:theme="@style/CheckBoxStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@{viewModel.onlyNHSOrganisationsChecked}"

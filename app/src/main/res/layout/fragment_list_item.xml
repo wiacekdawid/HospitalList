@@ -13,13 +13,21 @@
         android:onClick="@{() -> viewModel.onClickItem()}">
 
         <TextView
+            android:theme="@style/TextViewListItemPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="14sp"
-            android:padding="16dp"
             android:text="@{viewModel.organisationName}"/>
+
+        <TextView
+            android:theme="@style/TextViewListItemSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{viewModel.organisationName}"/>
+
     </LinearLayout>
 
 </layout>
