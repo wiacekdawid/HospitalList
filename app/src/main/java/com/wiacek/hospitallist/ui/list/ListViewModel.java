@@ -6,14 +6,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.wiacek.hospitallist.BR;
-import com.wiacek.hospitallist.data.DataManager;
-import com.wiacek.hospitallist.data.db.OrganisationDbHelper;
-import com.wiacek.hospitallist.data.db.model.Organisation;
-import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivity;
-import com.wiacek.hospitallist.ui.base.ViewHandler;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * Created by wiacek.dawid@gmail.com

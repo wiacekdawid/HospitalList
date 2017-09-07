@@ -1,8 +1,5 @@
 package com.wiacek.hospitallist.ui.list;
 
-import android.databinding.Bindable;
-
-import com.wiacek.hospitallist.BR;
 import com.wiacek.hospitallist.data.DataManager;
 import com.wiacek.hospitallist.data.db.OrganisationDbHelper;
 import com.wiacek.hospitallist.data.db.model.Organisation;
@@ -11,6 +8,8 @@ import com.wiacek.hospitallist.ui.base.ViewHandler;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -22,6 +21,7 @@ import timber.log.Timber;
 
 public class ListViewHandler implements ViewHandler {
 
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ListViewModel listViewModel;
     private AttachedHospitalListActivity attachedHospitalListActivity;
     private AttachedListFragment attachedListFragment;
@@ -50,11 +50,12 @@ public class ListViewHandler implements ViewHandler {
     @Override
     public void onDetach() {
         realm.close();
+        compositeDisposable.clear();
     }
 
     public void onRefresh() {
         if(!listViewModel.isNoMoreToLoad() && !listViewModel.isLoading()) {
-            getData()
+            Disposable disposable = getData()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(value -> onSuccessGetData(value),
@@ -63,6 +64,7 @@ public class ListViewHandler implements ViewHandler {
                                 Timber.e(throwable.getMessage());
                             }
                     );
+            compositeDisposable.add(disposable);
         }
     }
 
