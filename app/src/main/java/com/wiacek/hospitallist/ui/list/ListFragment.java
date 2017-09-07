@@ -104,6 +104,18 @@ public class ListFragment extends Fragment {
                     }
                 }
         );
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                if(totalItemCount <= (lastVisibleItem + 2)){
+                    listViewHandler.onRefresh();
+                }
+            }
+        });
     }
 
     public void onUpdatedData() {

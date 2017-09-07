@@ -22,6 +22,9 @@ import io.realm.RealmResults;
 public class ListViewModel extends BaseObservable implements Parcelable {
 
     private boolean onlyNHSOrganisationsChecked;
+    private boolean noMoreToLoad;
+    private boolean loading;
+    private boolean reconnectMessageVisible;
 
     public ListViewModel() {}
 
@@ -35,8 +38,39 @@ public class ListViewModel extends BaseObservable implements Parcelable {
         notifyPropertyChanged(BR.onlyNHSOrganisationsChecked);
     }
 
+    @Bindable
+    public boolean isLoading() {
+        return loading;
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+        notifyPropertyChanged(BR.loading);
+    }
+
+    @Bindable
+    public boolean isReconnectMessageVisible() {
+        return reconnectMessageVisible;
+    }
+
+    public void setReconnectMessageVisible(boolean reconnectMessageVisible) {
+        this.reconnectMessageVisible = reconnectMessageVisible;
+        notifyPropertyChanged(BR.reconnectMessageVisible);
+    }
+
+    public boolean isNoMoreToLoad() {
+        return noMoreToLoad;
+    }
+
+    public void setNoMoreToLoad(boolean noMoreToLoad) {
+        this.noMoreToLoad = noMoreToLoad;
+    }
+
     protected ListViewModel(Parcel in) {
         onlyNHSOrganisationsChecked = in.readByte() != 0x00;
+        loading = in.readByte() != 0x00;
+        reconnectMessageVisible = in.readByte() != 0x00;
+        noMoreToLoad = in.readByte() != 0x00;
     }
 
     @Override
@@ -47,6 +81,9 @@ public class ListViewModel extends BaseObservable implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeByte((byte) (onlyNHSOrganisationsChecked ? 0x01 : 0x00));
+        dest.writeByte((byte) (loading ? 0x01 : 0x00));
+        dest.writeByte((byte) (reconnectMessageVisible ? 0x01 : 0x00));
+        dest.writeByte((byte) (noMoreToLoad ? 0x01 : 0x00));
     }
 
     @SuppressWarnings("unused")

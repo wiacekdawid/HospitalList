@@ -9,8 +9,12 @@ import com.wiacek.hospitallist.data.db.model.Organisation;
 import com.wiacek.hospitallist.ui.activity.AttachedHospitalListActivity;
 import com.wiacek.hospitallist.ui.base.ViewHandler;
 
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import timber.log.Timber;
 
 /**
  * Created by wiacek.dawid@gmail.com
@@ -36,18 +40,45 @@ public class ListViewHandler implements ViewHandler {
         this.realm = realm;
     }
 
-    public void onRefresh() {
-        dataManager.getHospitalList();
-    }
-
     @Override
-    public void onAttach() {}
+    public void onAttach() {
+        if(dataManager.getOrganisationsInDbCount(realm) == 0) {
+            onRefresh();
+        }
+    }
 
     @Override
     public void onDetach() {
         realm.close();
     }
 
+    public void onRefresh() {
+        if(!listViewModel.isNoMoreToLoad() && !listViewModel.isLoading()) {
+            getData()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(value -> onSuccessGetData(value),
+                            throwable -> {
+                                onErrorGetData();
+                                Timber.e(throwable.getMessage());
+                            }
+                    );
+        }
+    }
+
+    public Single<Boolean> getData() {
+        listViewModel.setLoading(true);
+        return dataManager.getHospitalList();
+    }
+
+    private void onSuccessGetData(boolean noMoreToLoad) {
+        listViewModel.setLoading(false);
+        listViewModel.setNoMoreToLoad(noMoreToLoad);
+    }
+
+    private void onErrorGetData() {
+        listViewModel.setLoading(false);
+    }
 
     public void onCheckedOnlyNHSOrganisationsChanged() {
         listViewModel.setOnlyNHSOrganisationsChecked(!listViewModel.isOnlyNHSOrganisationsChecked());
@@ -55,10 +86,25 @@ public class ListViewHandler implements ViewHandler {
     }
 
     public RealmResults<Organisation> getAdapterDataFromDb() {
+        RealmResults<Organisation> realmResults;
         if(listViewModel.isOnlyNHSOrganisationsChecked()) {
-            return OrganisationDbHelper.getNHSOrganisations(realm);
+            realmResults = OrganisationDbHelper.getNHSOrganisations(realm);
         }
-        return OrganisationDbHelper.getOrganisations(realm);
+        else {
+            realmResults = OrganisationDbHelper.getOrganisations(realm);
+        }
+        realmResults.addChangeListener((organisations, changeSet) -> onListUpdate(organisations));
+        onListUpdate(realmResults);
+        return realmResults;
+    }
+
+    private void onListUpdate(RealmResults<Organisation> organisations) {
+        if(organisations.size() == 0) {
+            listViewModel.setReconnectMessageVisible(true);
+        }
+        else {
+            listViewModel.setReconnectMessageVisible(false);
+        }
     }
 
     public AttachedHospitalListActivity getAttachedHospitalListActivity() {

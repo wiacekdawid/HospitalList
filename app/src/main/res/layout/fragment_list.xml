@@ -1,5 +1,4 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="viewHandler"
@@ -8,54 +7,83 @@
             name="viewModel"
             type="com.wiacek.hospitallist.ui.list.ListViewModel" />
     </data>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:onRefreshListener="@{() -> viewHandler.onRefresh()}">
+        android:layout_height="match_parent" >
 
-        <RelativeLayout
-            android:orientation="vertical"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/filter_linear_layout"
+            android:paddingBottom="60dp" >
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/fragment_list_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorLightGray"
-                android:layout_alignBottom="@+id/filter_linear_layout"
-                android:paddingBottom="60dp" />
+                android:background="@color/colorLightGray" />
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
+                android:visibility="@{viewModel.isLoading}"/>
 
             <LinearLayout
-                android:id="@+id/filter_linear_layout"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:orientation="vertical"
-                android:gravity="bottom|center">
+                android:layout_gravity="top"
+                android:gravity="center"
+                android:paddingTop="16dp"
+                android:visibility="@{viewModel.reconnectMessageVisible}">
 
                 <TextView
+                    android:theme="@style/TextViewListItemPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorBackground"
-                    android:textColor="@color/colorWhite"
-                    android:padding="4dp"
                     android:gravity="center"
-                    android:text="@string/filter"/>
+                    android:text="@string/hospital_list_empty_message"
+                    android:paddingBottom="16dp"/>
 
-                <CheckBox
-                    android:theme="@style/CheckBoxStyle"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:theme="@style/TextViewListItemPrimary"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="@{viewModel.onlyNHSOrganisationsChecked}"
-                    android:onClick="@{() -> viewHandler.onCheckedOnlyNHSOrganisationsChanged()}"
-                    android:textColor="#000"
-                    android:text="@string/filter_show_nhs_hospitals"/>
+                    android:padding="16dp"
+                    android:text="@string/hospital_list_refresh_button"
+                    android:onClick="@{() -> viewHandler.onRefresh()}"/>
 
             </LinearLayout>
-        </RelativeLayout>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+        </FrameLayout>
+        <LinearLayout
+            android:id="@+id/filter_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:gravity="bottom|center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackground"
+                android:textColor="@color/colorWhite"
+                android:padding="4dp"
+                android:gravity="center"
+                android:text="@string/filter"/>
+
+            <CheckBox
+                android:theme="@style/CheckBoxStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{viewModel.onlyNHSOrganisationsChecked}"
+                android:onClick="@{() -> viewHandler.onCheckedOnlyNHSOrganisationsChanged()}"
+                android:textColor="#000"
+                android:text="@string/filter_show_nhs_hospitals"/>
+
+        </LinearLayout>
+    </RelativeLayout>
 </layout>

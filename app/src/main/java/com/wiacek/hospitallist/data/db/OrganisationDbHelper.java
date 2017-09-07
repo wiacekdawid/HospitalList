@@ -36,4 +36,9 @@ public class OrganisationDbHelper {
                 .equalTo(OrganisationFields.SECTOR, "NHS Sector")
                 .findAll();
     }
+
+    public static long getOrganisationsCount(Realm realm) {
+        return realm.where(Organisation.class)
+                .count();
+    }
 }

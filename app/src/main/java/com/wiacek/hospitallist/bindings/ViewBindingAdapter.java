@@ -9,8 +9,14 @@ import android.view.View;
 
 public class ViewBindingAdapter {
     @BindingAdapter("visibility")
-    public static void setCheckBoxChecked(View view,
+    public static void setViewVisibilityByString(View view,
                                           String text) {
         view.setVisibility((text == null || text.isEmpty()) ? View.GONE : View.VISIBLE);
+    }
+
+    @BindingAdapter("android:visibility")
+    public static void setViewVisibilityByBoolean(View view,
+                                         boolean value) {
+        view.setVisibility(value ? View.VISIBLE : View.GONE);
     }
 }

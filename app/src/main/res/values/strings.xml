@@ -18,6 +18,9 @@
     <string name="hospital_list_details_email">Email:</string>
     <string name="hospital_list_details_website">Website:</string>
     <string name="hospital_list_details_fax">Fax:</string>
+    <string name="hospital_list_empty_message">List is empty. Press Refresh to try again.</string>
+    <string name="hospital_list_refresh_button">Refresh</string>
+    <string name="hospital_list_error_message">Error while loading data.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 </resources>
