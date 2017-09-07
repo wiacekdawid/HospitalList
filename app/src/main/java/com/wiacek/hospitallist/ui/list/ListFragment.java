@@ -54,6 +54,9 @@ public class ListFragment extends Fragment {
         ListFragmentComponent component = ((HospitalListActivity)getActivity())
                 .getHospitalListActivityComponent().add(new ListFragmentModule(this));
         component.inject(this);
+        if(savedInstanceState != null) {
+            listViewHandler.setListViewModel(savedInstanceState.getParcelable(BUNDLE_LIST_VIEW_MODEL));
+        }
         listViewHandler.onAttach();
     }
 
@@ -69,7 +72,6 @@ public class ListFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         if(savedInstanceState != null) {
             linearLayoutManager.onRestoreInstanceState(savedInstanceState.getParcelable(BUNDLE_LINEAR_LAYOUT_MANAGER_STATE));
-            listViewHandler.setListViewModel(savedInstanceState.getParcelable(BUNDLE_LIST_VIEW_MODEL));
         }
         fragmentListBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false);
         fragmentListBinding.setViewModel(listViewHandler.getListViewModel());

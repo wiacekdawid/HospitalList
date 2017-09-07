@@ -42,6 +42,7 @@ public class ListViewHandler implements ViewHandler {
 
     @Override
     public void onAttach() {
+        listViewModel.setLoading(false);
         if(dataManager.getOrganisationsInDbCount(realm) == 0) {
             onRefresh();
         }
