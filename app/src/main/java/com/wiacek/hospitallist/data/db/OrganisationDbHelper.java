@@ -27,7 +27,7 @@ public class OrganisationDbHelper {
     public static Organisation getOrganisationById(Realm realm,
                                                    String organisationId) {
         return realm.where(Organisation.class)
-                .equalTo(OrganisationFields.ORGANISATION_ID, organisationId)
+                .equalTo(OrganisationFields.ID, organisationId)
                 .findFirst();
     }
 

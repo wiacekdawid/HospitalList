@@ -9,14 +9,14 @@ import io.realm.annotations.PrimaryKey;
 
 public class Organisation extends RealmObject {
     @PrimaryKey
-    private String organisationID;
-    private String organisationCode;
-    private String organisationType;
+    private String id;
+    private String code;
+    private String type;
     private String subType;
     private String sector;
-    private String organisationStatus;
+    private String status;
     private boolean isPimsManaged;
-    private String organisationName;
+    private String name;
     private String parentName;
     private String parentODSCode;
     private Address address;
@@ -30,42 +30,42 @@ public class Organisation extends RealmObject {
                         String organisationName, String parentName,
                         String parentODSCode, Address address,
                         ContactData contactData) {
-        this.organisationID = organisationID;
-        this.organisationCode = organisationCode;
-        this.organisationType = organisationType;
+        this.id = organisationID;
+        this.code = organisationCode;
+        this.type = organisationType;
         this.subType = subType;
         this.sector = sector;
-        this.organisationStatus = organisationStatus;
+        this.status = organisationStatus;
         this.isPimsManaged = isPimsManaged;
-        this.organisationName = organisationName;
+        this.name = organisationName;
         this.setParentName(parentName);
         this.setParentODSCode(parentODSCode);
         this.address = address;
         this.contactData = contactData;
     }
 
-    public String getOrganisationID() {
-        return organisationID;
+    public String getId() {
+        return id;
     }
 
-    public void setOrganisationID(String organisationID) {
-        this.organisationID = organisationID;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getOrganisationCode() {
-        return organisationCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setOrganisationCode(String organisationCode) {
-        this.organisationCode = organisationCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getOrganisationType() {
-        return organisationType;
+    public String getType() {
+        return type;
     }
 
-    public void setOrganisationType(String organisationType) {
-        this.organisationType = organisationType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getSubType() {
@@ -76,12 +76,12 @@ public class Organisation extends RealmObject {
         this.subType = subType;
     }
 
-    public String getOrganisationStatus() {
-        return organisationStatus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setOrganisationStatus(String organisationStatus) {
-        this.organisationStatus = organisationStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getSector() {
@@ -100,12 +100,12 @@ public class Organisation extends RealmObject {
         isPimsManaged = pimsManaged;
     }
 
-    public String getOrganisationName() {
-        return organisationName;
+    public String getName() {
+        return name;
     }
 
-    public void setOrganisationName(String organisationName) {
-        this.organisationName = organisationName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Address getAddress() {

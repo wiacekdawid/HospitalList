@@ -60,7 +60,7 @@ public class CsvFileToRealmObjectMapper {
                 row[SUB_TYPE],
                 row[SECTOR],
                 row[ORGANISATION_STATUS],
-                row[IS_PIMS_MANAGED].equals("true"),
+                row[IS_PIMS_MANAGED].equalsIgnoreCase("true"),
                 row[ORGANISATION_NAME],
                 row[PARENT_NAME],
                 row[PARENT_ODS_CODE],

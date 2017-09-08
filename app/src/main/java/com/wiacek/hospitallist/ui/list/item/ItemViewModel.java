@@ -26,9 +26,9 @@ public class ItemViewModel extends BaseObservable {
     }
 
     public void setItem(Organisation organisation) {
-        organisationId = organisation.getOrganisationID();
-        organisationName = organisation.getOrganisationName();
-        organisationType = organisation.getOrganisationType();
+        organisationId = organisation.getId();
+        organisationName = organisation.getName();
+        organisationType = organisation.getType();
         sector = organisation.getSector();
 
         String city = organisation.getAddress().getCity();

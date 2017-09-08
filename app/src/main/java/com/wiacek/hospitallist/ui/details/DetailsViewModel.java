@@ -40,8 +40,8 @@ public class DetailsViewModel extends BaseObservable implements Parcelable {
         try {
             Organisation organisation = OrganisationDbHelper
                     .getOrganisationById(realm, organisationIdDetails);
-            organisationNameDetails = organisation.getOrganisationName();
-            organisationTypeDetails = organisation.getOrganisationType();
+            organisationNameDetails = organisation.getName();
+            organisationTypeDetails = organisation.getType();
             organisationSubtypeDetails = organisation.getSubType();
             organisationSectorDetails = organisation.getSector();
             organisationIsPimsManagedDetails = organisation.isPimsManaged();
