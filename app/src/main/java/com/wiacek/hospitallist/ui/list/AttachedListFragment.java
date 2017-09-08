@@ -6,4 +6,5 @@ package com.wiacek.hospitallist.ui.list;
 
 public interface AttachedListFragment {
     void onUpdatedData();
+    void showErrorMessage();
 }

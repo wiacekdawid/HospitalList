@@ -18,4 +18,9 @@ public class AttachedListFragmentImp implements AttachedListFragment {
     public void onUpdatedData() {
         listFragment.get().onUpdatedData();
     }
+
+    @Override
+    public void showErrorMessage() {
+        listFragment.get().showErrorMessage();
+    }
 }

@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.wiacek.hospitallist.R;
 import com.wiacek.hospitallist.databinding.FragmentListBinding;
@@ -122,6 +123,10 @@ public class ListFragment extends Fragment {
 
     public void onUpdatedData() {
         listAdapter.updateData(listViewHandler.getAdapterDataFromDb());
+    }
+
+    public void showErrorMessage() {
+        Toast.makeText(getActivity(), R.string.hospital_list_error_message, Toast.LENGTH_SHORT).show();
     }
 
     public interface OnListItemSelectedListener {

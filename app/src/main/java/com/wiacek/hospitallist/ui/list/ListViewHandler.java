@@ -81,6 +81,7 @@ public class ListViewHandler implements ViewHandler {
 
     private void onErrorGetData() {
         listViewModel.setLoading(false);
+        attachedListFragment.showErrorMessage();
     }
 
     public void onCheckedOnlyNHSOrganisationsChanged() {

@@ -22,7 +22,7 @@ import timber.log.Timber;
  */
 
 public class DataManager {
-    private static final int NUM_OF_SAVED_ORGANISATION_AT_ONCE = 10;
+    private static final int NUM_OF_SAVED_ORGANISATION_AT_ONCE = 15;
     private static final String TEMPORARY_CSV_FILE_NAME = "tempHospitalList.csv";
     private DataGovService dataGovService;
     private File cacheDir;
