@@ -1,10 +1,10 @@
 package com.wiacek.hospitallist.di.modules;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 
 import com.wiacek.hospitallist.api.DataGovService;
 import com.wiacek.hospitallist.data.DataManager;
+import com.wiacek.hospitallist.data.DataManagerImp;
 import com.wiacek.hospitallist.data.db.OrganisationDbHelper;
 import com.wiacek.hospitallist.data.db.model.Organisation;
 import com.wiacek.hospitallist.di.scopes.FragmentScope;
@@ -41,7 +41,7 @@ public class ListFragmentModule {
     @FragmentScope
     @Provides
     AttachedListFragment provideAttachedListFragment() {
-        return new AttachedListFragmentImp(new WeakReference<ListFragment>(listFragment));
+        return new AttachedListFragmentImp(new WeakReference<>(listFragment));
     }
 
     @FragmentScope
@@ -55,17 +55,16 @@ public class ListFragmentModule {
     ListViewHandler provideListViewHandler(ListViewModel listViewModel,
                                             AttachedHospitalListActivity attachedHospitalListActivity,
                                             AttachedListFragment attachedListFragment,
-                                            DataManager dataManager,
-                                            Realm realm) {
+                                            DataManager dataManager) {
         return new ListViewHandler(listViewModel,
-                attachedHospitalListActivity, attachedListFragment, dataManager, realm);
+                attachedHospitalListActivity, attachedListFragment, dataManager);
     }
 
     @FragmentScope
     @Provides
     DataManager provideDataManager(DataGovService dataGovService,
                                    @Named("ApplicationContext") Context context) {
-        return new DataManager(context, dataGovService);
+        return new DataManagerImp(context, dataGovService);
     }
 
     @FragmentScope
@@ -75,11 +74,5 @@ public class ListFragmentModule {
         RealmResults<Organisation> results;
         results = OrganisationDbHelper.getOrganisations(realm);
         return new ListAdapter(results, true, attachedHospitalListActivity);
-    }
-
-    @FragmentScope
-    @Provides
-    Realm provideRealm() {
-        return Realm.getDefaultInstance();
     }
 }

@@ -63,6 +63,7 @@ dependencies {
 
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.ext.leakcanaryVersion"
     testCompile "junit:junit:$rootProject.ext.junitVersion"
+    testCompile "org.mockito:mockito-inline:$rootProject.ext.mockitoVersion"
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs'

@@ -31,17 +31,16 @@ public class ListViewHandler implements ViewHandler {
     public ListViewHandler(ListViewModel listViewModel,
                            AttachedHospitalListActivity attachedHospitalListActivity,
                            AttachedListFragment attachedListFragment,
-                           DataManager dataManager,
-                           Realm realm) {
+                           DataManager dataManager) {
         this.listViewModel = listViewModel;
         this.setAttachedHospitalListActivity(attachedHospitalListActivity);
         this.attachedListFragment = attachedListFragment;
         this.dataManager = dataManager;
-        this.realm = realm;
     }
 
     @Override
     public void onAttach() {
+        realm = Realm.getDefaultInstance();
         listViewModel.setLoading(false);
         if(dataManager.getOrganisationsInDbCount(realm) == 0) {
             onRefresh();
@@ -74,12 +73,12 @@ public class ListViewHandler implements ViewHandler {
         return dataManager.getHospitalList();
     }
 
-    private void onSuccessGetData(boolean noMoreToLoad) {
+    public void onSuccessGetData(boolean noMoreToLoad) {
         listViewModel.setLoading(false);
         listViewModel.setNoMoreToLoad(noMoreToLoad);
     }
 
-    private void onErrorGetData() {
+    public void onErrorGetData() {
         listViewModel.setLoading(false);
         attachedListFragment.showErrorMessage();
     }
